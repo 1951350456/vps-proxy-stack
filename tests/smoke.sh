@@ -3,6 +3,8 @@ set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
 if [[ -e data ]]; then echo 'Smoke test requires a fresh checkout with no data/.' >&2; exit 2; fi
 umask 077
+apt-get update -qq
+apt-get install -y --no-install-recommends python3-yaml
 python3 scripts/runtime.py init 127.0.0.1
 python3 scripts/runtime.py preflight
 python3 scripts/runtime.py render

@@ -4,6 +4,7 @@ import ssl
 import time
 import urllib.error
 import urllib.request
+import yaml
 
 from provision import Panel
 from runtime import load
@@ -37,10 +38,17 @@ def main():
             time.sleep(1)
     with opener.open(base + c["clash_path"] + c["sub_id"], timeout=15) as response:
         body = response.read()
-        if b"proxies:" not in body or c["uuid"].encode() not in body or c["address"].encode() not in body:
-            raise RuntimeError("Native Mihomo subscription did not contain the generated node")
-        if b"shadowsocks" not in body and c["ss_password"].encode() not in body:
-            raise RuntimeError("Native subscription did not contain Shadowsocks")
+        document = yaml.safe_load(body)
+        proxies = document["proxies"]
+        reality = [p for p in proxies if p["type"] == "vless"]
+        shadowsocks = [p for p in proxies if p["type"] == "ss"]
+        if len(reality) != 1 or reality[0]["uuid"] != c["uuid"] or reality[0]["server"] != c["address"]:
+            raise RuntimeError("Native Reality export differs from generated identity: " + str({
+                "types": [p.get("type") for p in proxies],
+                "uuid_matches": bool(reality) and reality[0].get("uuid") == c["uuid"],
+                "address_matches": bool(reality) and reality[0].get("server") == c["address"]}))
+        if len(shadowsocks) != 1 or shadowsocks[0]["password"] != c["ss_server_password"] + ":" + c["ss_password"]:
+            raise RuntimeError("Native Shadowsocks export differs from generated identity")
         if not response.headers.get("Subscription-Userinfo"):
             raise RuntimeError("Traffic metadata header is missing")
     with opener.open(base + c["gateway_path"], timeout=10) as response:

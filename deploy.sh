@@ -33,7 +33,7 @@ fi
 case "$(dpkg --print-architecture)" in amd64|arm64) ;; *) echo 'Use amd64 or arm64.' >&2; exit 2 ;; esac
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
-apt-get install -y --no-install-recommends ca-certificates curl python3 openssl iproute2
+apt-get install -y --no-install-recommends ca-certificates curl python3 python3-yaml openssl iproute2
 python3 - "$1" <<'PY'
 import ipaddress, sys
 ip = ipaddress.IPv4Address(sys.argv[1])
