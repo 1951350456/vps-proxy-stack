@@ -13,6 +13,8 @@ openssl req -x509 -newkey rsa:2048 -nodes -days 2 \
   -subj /CN=127.0.0.1 -addext subjectAltName=IP:127.0.0.1 \
   -keyout data/cert/privkey.pem -out data/cert/fullchain.pem 2>/dev/null
 docker compose -p vps-proxy-stack pull panel web
+docker compose -p vps-proxy-stack --profile tools pull acme
+docker compose -p vps-proxy-stack run --rm acme --version
 docker compose -p vps-proxy-stack build gateway
 python3 scripts/runtime.py database
 docker compose -p vps-proxy-stack up -d --wait gateway

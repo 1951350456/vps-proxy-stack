@@ -48,6 +48,7 @@ class Panel:
 
 def inbounds(c):
     common = {"enable": True, "expiryTime": 0, "total": 0, "listen": "0.0.0.0",
+              "shareAddrStrategy": "custom", "shareAddr": c["address"],
               "sniffing": json.dumps({"enabled": True, "destOverride": ["http", "tls", "quic"],
                                        "routeOnly": True})}
     client = {"enable": True, "expiryTime": 0, "totalGB": 0, "limitIp": 0,
