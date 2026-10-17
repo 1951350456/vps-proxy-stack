@@ -32,4 +32,5 @@ python3 scripts/provision.py
 cmp data/config.json data/config.before.json
 python3 tests/live_checks.py
 docker compose -p vps-proxy-stack restart panel gateway web
+docker compose -p vps-proxy-stack up -d --wait gateway
 python3 scripts/verify.py --ca data/cert/fullchain.pem

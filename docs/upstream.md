@@ -11,6 +11,7 @@ Verified on 2026-10-17. Runtime interfaces are bound to the pinned 3x-ui release
 | Docker / Compose | Compose v2 with `up --wait`; Context7 `/docker/docs` | [Debian installation](https://docs.docker.com/engine/install/debian/), [host network](https://docs.docker.com/engine/network/drivers/host/), [Compose specification](https://docs.docker.com/reference/compose-file/) |
 | X25519 DER encoding | RFC 8410 | [PKCS#8 and SubjectPublicKeyInfo](https://www.rfc-editor.org/rfc/rfc8410) |
 | PyYAML | Debian 12 python3-yaml; Context7 `/yaml/pyyaml` | [safe loading](https://github.com/yaml/pyyaml#readme) |
+| Mihomo (integration tests only) | v1.19.32 | [release](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.32) |
 | Shadowsocks links | SIP002 | [URI scheme](https://shadowsocks.org/doc/sip002.html) |
 
 The bootstrap uses the public upstream image, not a copy of any preconfigured panel. The only direct SQLite writes occur on a newly created, offline database to configure subscription listeners and paths which the upstream CLI does not expose. The expected settings schema is checked explicitly. Node creation uses the authenticated API with CSRF tokens.

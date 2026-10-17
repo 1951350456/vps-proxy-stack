@@ -1,5 +1,7 @@
 # VPS Proxy Stack
 
+[![Verify clean deployment](https://github.com/1951350456/vps-proxy-stack/actions/workflows/ci.yml/badge.svg)](https://github.com/1951350456/vps-proxy-stack/actions/workflows/ci.yml)
+
 从零部署自己的 3x-ui、VLESS Reality、Shadowsocks 和 HTTPS 订阅。无需复制任何现成服务器的数据库或密钥。
 
 ## 一键部署
@@ -92,7 +94,7 @@ bash -n deploy.sh tests/smoke.sh
 python3 scripts/audit_public.py
 ```
 
-单元测试中的密钥生成需要 OpenSSL 3。GitHub Actions 另在全新的 Linux Docker 环境中验证数据库初始化、API 创建节点、HTTPS 原生订阅、转换接口、重复运行和重启。隔离测试使用显式信任的临时测试证书；生产脚本只使用 Let's Encrypt 证书。
+单元测试中的密钥生成需要 OpenSSL 3。GitHub Actions 另在全新的 Linux Docker 环境中验证数据库初始化、API 创建节点、HTTPS 原生订阅、转换接口、重复运行和重启，并使用 Mihomo v1.19.32 分别经 Reality 与 Shadowsocks 请求真实 HTTPS 网页。隔离测试使用显式信任的临时测试证书；生产脚本只使用 Let's Encrypt 证书。
 
 CI 不会实际向 Let's Encrypt 申请证书，也不等于已经验证你所在网络到代理节点的连接。首次真实服务器部署仍须完成公网证书签发及客户端连接验证。
 

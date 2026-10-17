@@ -54,7 +54,7 @@ docker info >/dev/null
 python3 scripts/runtime.py init "$1"
 python3 scripts/runtime.py preflight
 docker compose -p vps-proxy-stack config --quiet
-docker compose -p vps-proxy-stack --profile tools pull
+docker compose -p vps-proxy-stack --profile tools pull --ignore-buildable
 docker compose -p vps-proxy-stack build --pull gateway
 python3 scripts/runtime.py render
 python3 scripts/runtime.py cert

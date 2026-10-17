@@ -76,7 +76,7 @@ try:
                                          data=json.dumps({"name": proxy["name"]}).encode())
         control.open(request, timeout=5).close()
         subprocess.run(["curl", "--fail", "--silent", "--show-error", "--max-time", "30",
-                        "--proxy", "socks5h://127.0.0.1:17890", "https://example.com", "-o", "/dev/null"], check=True)
+                        "--noproxy", "", "--proxy", "socks5h://127.0.0.1:17890", "https://example.com", "-o", "/dev/null"], check=True)
         print("Verified real proxy traffic:", protocol)
 finally:
     subprocess.run(["docker", "stop", "stack-test-client"], check=True, stdout=subprocess.DEVNULL)
