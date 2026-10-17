@@ -1,0 +1,13 @@
+.env
+data/
+backups/
+*.db
+*.db-*
+*.pem
+*.key
+*.p12
+*.tar*
+*.zip
+__pycache__/
+.venv/
+.DS_Store

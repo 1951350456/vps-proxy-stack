@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>节点转换 · VPS Proxy Stack</title>
+<style>
+body{font:16px/1.7 system-ui,sans-serif;background:#f5f7fa;color:#18293b;margin:0;padding:7vh 20px}
+main{max-width:660px;margin:auto;background:white;padding:32px;border-radius:18px;border:1px solid #dce3eb}
+h1{font-size:26px;margin:0}p{color:#526379}textarea{box-sizing:border-box;width:100%;height:200px;border:1px solid #bac7d5;border-radius:8px;padding:12px;font:14px/1.6 monospace}
+button{background:#1768bd;color:white;border:0;border-radius:8px;padding:12px 24px;font-size:16px;cursor:pointer;margin-top:14px}
+output{display:block;margin-top:20px;overflow-wrap:anywhere;white-space:pre-wrap}small{display:block;color:#526379;margin-top:20px}
+</style>
+<main>
+<h1>生成 Mihomo 订阅</h1>
+<p>每行粘贴一个 VLESS Reality TCP 或 Shadowsocks（SIP002）节点链接。</p>
+<label for="links">节点链接</label><textarea id="links" spellcheck="false" autocomplete="off"></textarea>
+<button id="convert">生成订阅链接</button><output id="result" role="status"></output>
+<small>当前面板的节点请优先使用部署时提供的原生 Mihomo 订阅，可同步节点变更和流量信息。此页面生成静态订阅；不支持的协议会明确报错。请保管好本页地址和订阅链接。</small>
+</main>
+<script>
+document.getElementById('convert').addEventListener('click',async()=>{
+ const result=document.getElementById('result'); const button=document.getElementById('convert');
+ button.disabled=true; result.textContent='正在转换…';
+ try{
+  const response=await fetch('api/convert',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({links:document.getElementById('links').value})});
+  const body=await response.json();if(!response.ok)throw new Error(body.error);
+  result.textContent=new URL(body.path,location.href).href;
+ }catch(error){result.textContent='转换失败：'+error.message;}finally{button.disabled=false;}
+});
+</script>
+</html>
