@@ -15,6 +15,9 @@ openssl req -x509 -newkey rsa:2048 -nodes -days 2 \
 docker compose -p vps-proxy-stack pull panel web
 docker compose -p vps-proxy-stack --profile tools pull acme
 docker compose -p vps-proxy-stack run --rm acme --version
+# Reproduce a checkout created under umask 077. The image must explicitly make
+# program sources readable to its unprivileged runtime user.
+chmod 600 gateway/server.py gateway/index.html
 docker compose -p vps-proxy-stack build gateway
 python3 scripts/runtime.py database
 docker compose -p vps-proxy-stack up -d --wait gateway
